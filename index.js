@@ -1,6 +1,7 @@
 //all routes working with crul and postman
 //To test CREATE, run this command: curl localhost:3000/api/flavors -X POST -d '{"name": "mint", "is_favorite": true}' -H "Content-Type:application/json"
-//To test READ, run this command: curl localhost:3000/api/flavors
+//To test READ ALL, run this command: curl localhost:3000/api/flavors
+//To test READ ONE, run this command: curl localhost:3000/api/flavors/1
 //To test UPDATE, run this command: curl localhost:3000/api/flavors/4 -X PUT -d '{"name": "mint chip", "is_favorite": false}' -H "Content-Type:application/json"
 //To test DELETE, run this command: curl localhost:3000/api/flavors/4 -X DELETE
 
@@ -39,6 +40,23 @@ app.get("/api/flavors", async (req, res, next) => {
       next(err);
     }
   });
+
+// GET /api/flavors/:id - Get a single flavor by ID
+app.get("/api/flavors/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const SQL = `SELECT * FROM flavors WHERE id=$1;`;
+    const response = await client.query(SQL, [id]);
+    if (response.rows.length) {
+      res.send(response.rows[0]);
+    } else {
+      res.status(404).send({ error: 'Flavor not found' });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 
   // PUT /api/flavors/:id - Update a flavor by ID
 app.put("/api/flavors/:id", async (req, res, next) => {
