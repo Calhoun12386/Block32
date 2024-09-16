@@ -1,3 +1,9 @@
+//all routes working with crul and postman
+//To test CREATE, run this command: curl localhost:3000/api/flavors -X POST -d '{"name": "mint", "is_favorite": true}' -H "Content-Type:application/json"
+//To test READ, run this command: curl localhost:3000/api/flavors
+//To test UPDATE, run this command: curl localhost:3000/api/flavors/4 -X PUT -d '{"name": "mint chip", "is_favorite": false}' -H "Content-Type:application/json"
+//To test DELETE, run this command: curl localhost:3000/api/flavors/4 -X DELETE
+
 const pg = require("pg");
 const express = require("express");
 const morgan = require("morgan");
